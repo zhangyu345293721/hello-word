@@ -1,0 +1,19 @@
+import torch
+import torch.nn as nn
+
+"""
+quantile loss function define
+"""
+
+class QuantileLoss(nn.Module):
+
+    def __init__(self, quantile : double) -> None:
+        super(self, QuantileLoss).__init__()
+        self.quantile = quantile
+    def forward(self, y_pred : float, y : float) -> torch.Tensor:
+        """
+            define qunantile loss function
+        """
+        error = y_pred - y
+        return torch.mean(error * torch.max(self.quantile - 1, self.quantile))
+    
